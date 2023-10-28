@@ -1,11 +1,11 @@
 Enseignant: Abdoul Majid Thiombiano/[@thiomajid](https://github.com/thiomajid)
 
 ## Description du projet
-Première étape d'une longue série, nous allons implémenter un *text-based RPG* appelé *ConsoleQuest*.
+Première étape d'une longue série, nous allons implémenter un *text-based RPG* appelé *consolequest*.
 Au cours de ce TP, nous allons définir la structure de base de notre jeu via les classes `GameEngine`, `Weapon` et `Character`.
 
 ## Etape 1
-Pour commencer, nous allons créer un dossier nommé **ConsoleQuest** qui contiendra tout le code pour ce projet. Après quoi, créer un dossier nommée **tp1** dans lequel sera écrit le code pour ce TP.
+Pour commencer, nous allons créer un dossier nommé **consolequest** qui contiendra tout le code pour ce projet. Après quoi, créer un dossier nommée **tp1** dans lequel sera écrit le code pour ce TP.
 
 
 >[!Info]
@@ -109,8 +109,8 @@ public void run(){
 	- Afficher les informations de votre personnage.
 	- Créer un deuxième personnage auquel vous allez attribuer une arme.
 	- Faites combattre les deux personnages et afficher le nom du gagnant.
-	- Afficher le message "*A la prochaine sur ConsoleQuest*" et arrêter le programme.
-- Si l'utilisateur choisit de quitter le jeu alors on lui affichera le message "*A la prochaine sur ConsoleQuest*".
+	- Afficher le message "*A la prochaine sur consolequest*" et arrêter le programme.
+- Si l'utilisateur choisit de quitter le jeu alors on lui affichera le message "*A la prochaine sur consolequest*".
 ## Etape 7
 Créer le fichier `Program.java` qui contiendra la fonction principale de notre programme.
 Dans la fonction principale créer une instance de `GameEngine` et lancer l'exécution du jeu.
