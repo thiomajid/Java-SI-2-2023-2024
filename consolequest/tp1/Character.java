@@ -1,11 +1,58 @@
 package consolequest.tp1;
 
+import consolequest.tp2.Inventory;
+import consolequest.tp2.WeaponType;
+
+import java.util.Scanner;
+
 public class Character {
+    // On utilise un compteur pour générer un identifiant unique pour chaque personnage
+    // A chaque fois qu'on crée un personnage, on incrémente le compteur et on l'assigne à l'identifiant du personnage
+    private static long nextId = 0;
+
+    // characterId est lié à l'instance du personnage, pas à la classe
+    private final long characterId;
     private String name;
     private double health;
     private double attack;
     private double speed;
     private Weapon weapon;
+    private final Inventory inventory = new Inventory(3);
+
+    public Character(String name, double health, double attack, double speed) {
+        this.name = name;
+        this.health = health;
+        this.attack = attack;
+        this.speed = speed;
+        this.characterId = nextId++;
+    }
+
+    public Character(String name, double health, double attack, double speed, Weapon weapon) {
+        /**
+         * On pourrait écrire
+         * this.name = name;
+         * this.health = health;
+         * this.attack = attack;
+         * this.speed = speed;
+         * equipWeapon(weapon);
+         * this.characterId = nextId++;
+         *
+         * Mais on répète du code, donc on appelle le constructeur avec 4 paramètres
+         * et on appelle la fonction equipWeapon() pour équiper l'arme.
+         */
+
+        // Cette instruction appelle le constructeur public Character(String name, double health, double attack, double speed)
+        this(name, health, attack, speed);
+        equipWeapon(weapon);
+    }
+
+    public Character(String name, double health, double attack, double speed, String weaponName, double weaponAttack,
+                     WeaponType weaponType) {
+
+        // Cette instruction appelle le constructeur public Character(String name, double health, double attack, double speed, Weapon weapon)
+        // Vous pouvez également initialiser tous les attributs un à un si vous voulez
+        this(name, health, attack, speed, new Weapon(weaponName, weaponAttack, weaponType));
+    }
 
     public String getName() {
         return name;
@@ -47,12 +94,108 @@ public class Character {
     public void equipWeapon(Weapon newWeapon) {
         this.weapon = newWeapon;
         attack += newWeapon.getAttack();
+
+        // On vérifie si l'arme n'est pas déjà dans l'inventaire avant de l'ajouter
+        if (findWeaponByName(newWeapon.getName()) == null) {
+            inventory.addItem(newWeapon);
+        }
+    }
+
+    // Surcharge de la fonction equipWeapon() pour pouvoir équiper une arme par son nom
+    public void equipWeapon(String weaponName) {
+        Weapon weapon = findWeaponByName(weaponName);
+        if (weapon != null) {
+            // On appelle la fonction equipWeapon(Weapon newWeapon) pour éviter de répéter du code
+            equipWeapon(weapon);
+        }
     }
 
     public void unequipWeapon() {
-        attack -= weapon.getAttack();
-        this.weapon = null;
+        if (weapon != null) {
+            attack -= weapon.getAttack();
+            this.weapon = null;
+        }
     }
+
+    public Weapon findWeaponByName(String name) {
+        return inventory.findWeaponByName(name);
+    }
+
+    public void pickWeapon(Weapon weapon) {
+        inventory.addItem(weapon);
+    }
+
+    public void deleteWeaponByName(String name) {
+        inventory.deleteWeaponByName(name);
+    }
+
+    public void manageInventory() {
+        Scanner scanner = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("1.Ajouter un élément\n2.Supprimer un élément\n3.Chercher un élément\n4.Statut");
+            choice = scanner.nextInt();
+        } while (choice < 1 || choice > 4);
+
+        // On utilise un switch case pour exécuter le code correspondant au choix de l'utilisateur
+        switch (choice) {
+            case 1:
+                _addItem(scanner);
+                break;
+            case 2:
+                _deleteItem(scanner);
+                break;
+            case 3:
+                _searchWeapon(scanner);
+                break;
+            case 4:
+                System.out.println("Votre inventaire est:\n" + inventory);
+                break;
+        }
+    }
+
+    private void _searchWeapon(Scanner scanner) {
+        System.out.println("Quel est le nom de l'arme ?");
+        String weaponName = scanner.next();
+        Weapon weapon = findWeaponByName(weaponName);
+        if (weapon != null) {
+            System.out.println("L'arme est dans l'inventaire.");
+        } else {
+            System.out.println("L'arme n'est pas dans l'inventaire.");
+        }
+    }
+
+    private void _deleteItem(Scanner scanner) {
+        System.out.println("Quel est le nom de l'arme ?");
+        String weaponName = scanner.next();
+        deleteWeaponByName(weaponName);
+    }
+
+    // On va séparer les instructions de la fonction manageInventory() dans des fonctions utilitaires
+    // pour rendre le code plus lisible
+    private void _addItem(Scanner scanner) {
+        System.out.println("Quel est le nom de l'arme ?");
+        String weaponName = scanner.next();
+
+        System.out.println("Quel est l'attaque de l'arme ?");
+        double weaponAttack = scanner.nextDouble();
+
+        int weaponTypeChoice;
+        do {
+            System.out.println("Quel est le type de l'arme ?\n1.Sword\n2.Bow\n3.Staff");
+            weaponTypeChoice = scanner.nextInt();
+        } while (weaponTypeChoice < 1 || weaponTypeChoice > 3);
+
+        // Sur une énumération la fonction values() retourne un tableau contenant toutes les valeurs de l'énumération
+        // On peut donc accéder à la valeur de l'énumération en faisant WeaponType.values()[weaponTypeChoice - 1]
+        // Les valeurs de l'énumération sont indexées à partir de 0, donc on fait weaponTypeChoice - 1
+        // Vous pouvez également utiliser un switch case pour choisir le type de l'arme
+        WeaponType weaponType = WeaponType.values()[weaponTypeChoice - 1];
+        Weapon weapon = new Weapon(weaponName, weaponAttack, weaponType);
+        pickWeapon(weapon);
+    }
+
 
     /**
      * J'ai ajouté du code supplémentaire à la fonction attack() pour afficher des messages
