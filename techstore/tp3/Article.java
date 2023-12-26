@@ -70,7 +70,7 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article(id=" + id + ", nom=" + nom + ", reference=" + reference + ", prix=" + prix + ")";
+        return "id=" + id + ", nom=" + nom + ", reference=" + reference + ", prix=" + prix;
     }
 
     @Override

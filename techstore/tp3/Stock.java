@@ -1,5 +1,7 @@
 package techstore.tp3;
 
+import techstore.tp4.*;
+
 import java.util.ArrayList;
 
 public class Stock {
@@ -40,6 +42,7 @@ public class Stock {
     }
 
     public void ajouterArticle(Article article, long quantity) {
+
         articleList.add(new Element(article, quantity));
     }
 
@@ -47,6 +50,98 @@ public class Stock {
         Article article = new Article(nom, prix);
         ajouterArticle(article, quantity);
     }
+
+    /**
+     * Cette méthode ajoute un Périphérique au stock
+     *
+     * @param nom
+     * @param prix
+     * @param quantity
+     * @param technologieDeConnexion
+     * @param interfaceAvecOrdinateur
+     */
+    public void ajouterArticle(String nom, double prix, long quantity, String technologieDeConnexion, String interfaceAvecOrdinateur) {
+        Peripherique peripherique = new Peripherique(nom, prix, technologieDeConnexion, interfaceAvecOrdinateur);
+        ajouterArticle(peripherique, quantity);
+    }
+
+    /**
+     * Cette méthode ajoute un ComposantStockage au stock
+     *
+     * @param nom
+     * @param prix
+     * @param quantity
+     * @param capacite
+     */
+    public void ajouterArticle(String nom, double prix, long quantity, int capacite) {
+        ComposantStockage composantStockage = new ComposantStockage(nom, prix, capacite);
+        ajouterArticle(composantStockage, quantity);
+    }
+
+
+    /**
+     * Cette méthode ajoute un OrdinateurPortable au stock
+     *
+     * @param nom
+     * @param prix
+     * @param quantity
+     * @param resolutionEcran
+     * @param processeur
+     * @param ram
+     * @param systemeExploitation
+     * @param disqueDur
+     * @param carteGraphique
+     * @param capaciteBatterie
+     */
+    public void ajouterArticle(String nom, double prix, long quantity, double resolutionEcran, String processeur, long ram, SystemeExploitation systemeExploitation, long disqueDur, String carteGraphique, long capaciteBatterie) {
+        OrdinateurPortable ordinateurPortable = new OrdinateurPortable(nom, prix, resolutionEcran, processeur, ram, systemeExploitation, disqueDur, carteGraphique, capaciteBatterie);
+        ajouterArticle(ordinateurPortable, quantity);
+
+    }
+
+
+    /**
+     * Cette méthode ajoute un OrdinateurBureau au stock
+     *
+     * @param nom
+     * @param prix
+     * @param quantity
+     * @param resolutionEcran
+     * @param processeur
+     * @param ram
+     * @param systemeExploitation
+     * @param disqueDur
+     * @param carteGraphique
+     * @param alimentation
+     */
+    public void ajouterArticle(String nom, double prix, long quantity, double resolutionEcran, String processeur, long ram, SystemeExploitation systemeExploitation, long disqueDur, String carteGraphique, String alimentation) {
+        OrdinateurBureau ordinateurBureau = new OrdinateurBureau(nom, prix, resolutionEcran, processeur, ram, systemeExploitation, disqueDur, carteGraphique, alimentation);
+        ajouterArticle(ordinateurBureau, quantity);
+    }
+
+
+    /**
+     * Cette méthode ajoute un Mobile au stock
+     *
+     * @param nom
+     * @param prix
+     * @param quantity
+     * @param resolutionEcran
+     * @param processeur
+     * @param ram
+     * @param systemeExploitation
+     * @param appareilPhotoArriere
+     * @param appareilPhotoFrontal
+     * @param nbSim
+     * @param capaciteBatterie
+     */
+    public void ajouterArticle(String nom, double prix, long quantity, double resolutionEcran, String processeur,
+                               long ram, SystemeExploitation systemeExploitation, double appareilPhotoArriere, double appareilPhotoFrontal,
+                               int nbSim, long capaciteBatterie) {
+        Mobile mobile = new Mobile(nom, prix, resolutionEcran, processeur, ram, systemeExploitation, appareilPhotoArriere, appareilPhotoFrontal, nbSim, capaciteBatterie);
+        ajouterArticle(mobile, quantity);
+    }
+
 
     public Element trouverArticle(String reference) {
         for (Element element : articleList) {
